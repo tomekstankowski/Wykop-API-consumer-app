@@ -1,0 +1,16 @@
+<resources>
+    <string name="app_name">WykopAPI</string>
+    <!--Labels-->
+    <string name="dig_count">Wykopy %1$d</string>
+    <string name="bury_count">Zakopy %1$d</string>
+    <string name="comment_count">Komentarze %1$d</string>
+    <string name="comment_plus_count">+ %1$d</string>
+    <string name="comment_minus_count">- %1$d</string>
+    <string name="author">Dodany przez</string>
+    <string name="empty">Nic tu nie ma</string>
+    <!--Actions-->
+    <string name="refresh">Odśwież</string>
+    <!--Callbacks-->
+    <string name="load_error">Nie można wczytać zawartości.</string>
+    <string name="link_not_exists">Link nie istnieje.</string>
+</resources>

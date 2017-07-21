@@ -1,0 +1,45 @@
+<resources>
+
+    <!-- Base application theme. -->
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:textColorPrimary">@color/primaryText</item>
+        <item name="android:textColorSecondary">@color/secondaryText</item>
+        <item name="android:textColorTertiary">@color/tertiaryText</item>
+        <item name="android:divider">@color/dividerColor</item>
+    </style>
+
+    <style name="Title" parent="Text">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@android:color/primary_text_light</item>
+    </style>
+
+    <style name="Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/secondary_text_light</item>
+        <item name="android:textAlignment">center</item>
+    </style>
+
+    <style name="Text.Small" parent="Text">
+        <item name="android:textSize">10sp</item>
+        <item name="android:textColor">@android:color/tertiary_text_light</item>
+    </style>
+
+    <style name="Text.Clickable" parent="Text">
+        <item name="android:textColor">@color/colorAccent</item>
+    </style>
+
+    <style name="Text.Clickable.Big" parent="Text.Clickable">
+        <item name="android:textSize">14sp</item>
+    </style>
+
+    <style name="Label" parent="Text">
+        <item name="android:textSize">12sp</item>
+        <item name="android:textColor">@android:color/tertiary_text_light</item>
+        <item name="android:background">@drawable/label</item>
+    </style>
+
+</resources>

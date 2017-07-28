@@ -1,4 +1,4 @@
-package com.tomaszstankowski.wykopapi
+package com.tomaszstankowski.wykopapi.di
 
 import com.squareup.otto.Bus
 import dagger.Module

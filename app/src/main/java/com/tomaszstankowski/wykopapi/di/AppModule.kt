@@ -1,5 +1,6 @@
-package com.tomaszstankowski.wykopapi
+package com.tomaszstankowski.wykopapi.di
 
+import com.tomaszstankowski.wykopapi.App
 import dagger.Module
 import dagger.Provides
 import javax.inject.Singleton

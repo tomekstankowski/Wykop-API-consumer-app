@@ -1,4 +1,4 @@
-package com.tomaszstankowski.wykopapi
+package com.tomaszstankowski.wykopapi.di
 
 import com.tomaszstankowski.wykopapi.ui.activity.LinkActivity
 import com.tomaszstankowski.wykopapi.ui.fragment.PromotedFragment

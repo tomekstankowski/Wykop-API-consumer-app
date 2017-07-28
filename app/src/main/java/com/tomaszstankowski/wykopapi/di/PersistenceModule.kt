@@ -1,6 +1,7 @@
-package com.tomaszstankowski.wykopapi
+package com.tomaszstankowski.wykopapi.di
 
 import android.arch.persistence.room.Room
+import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.persistence.WykopDatabase
 import dagger.Module
 import dagger.Provides

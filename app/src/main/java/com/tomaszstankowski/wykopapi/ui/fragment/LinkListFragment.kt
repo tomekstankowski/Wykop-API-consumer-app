@@ -6,6 +6,7 @@ import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -39,6 +40,7 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
     private val progressbar: ProgressBar by bindView(R.id.fragment_links_progressbar)
     private val refreshButton: Button by bindView(R.id.fragment_links_refresh_button)
     private val emptyView: TextView by bindView(R.id.fragment_links_empty_tv)
+    private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.fragment_links_swipe_refresh_layout)
     private lateinit var adapter: LinkListAdapter
     protected lateinit var viewModel: LinkListViewModel
     @Inject @field:[Named("link_list")] protected lateinit var bus: Bus
@@ -77,10 +79,16 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
             if (it != null) {
                 if (it == true)
                     progressbar.visibility = View.VISIBLE
-                else
+                else {
                     progressbar.visibility = View.GONE
+                    swipeRefreshLayout.isRefreshing = false
+                }
             }
         })
+
+        swipeRefreshLayout.setOnRefreshListener {
+            viewModel.refresh()
+        }
 
         refreshButton.setOnClickListener {
             viewModel.refresh()
@@ -125,7 +133,6 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
 
     fun loadNextPage() {
         viewModel.loadNextPage()
-        progressbar.visibility = View.VISIBLE
     }
 
     inner open class ScrollListener(val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
@@ -134,7 +141,7 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
             val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
             val isLoading = viewModel.isLoading.value ?: false
             if (dy < 0) {
-                val isTop = pastVisibleItems < 2
+                val isTop = pastVisibleItems < 5
                 if (!isTop && !isLoading)
                     showRefreshButton()
             }

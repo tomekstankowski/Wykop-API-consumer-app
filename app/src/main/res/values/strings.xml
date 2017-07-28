@@ -8,6 +8,7 @@
     <string name="comment_minus_count">- %1$d</string>
     <string name="author">Dodany przez</string>
     <string name="empty">Nic tu nie ma</string>
+    <string name="preview">Podgląd</string>
     <!--Actions-->
     <string name="refresh">Odśwież</string>
     <!--Callbacks-->

@@ -38,6 +38,10 @@ class CommentListAdapter(private val context: Context, private val headerLayout:
 
     private val inflater: LayoutInflater = LayoutInflater.from(context)
 
+    var onUserClickListener: OnUserClickListener? = null
+
+    var onLinkClickListener: OnLinkClickListener? = null
+
     override fun onCreateViewHolder(parent: ViewGroup?, viewType: Int): RecyclerView.ViewHolder =
             when (viewType) {
                 TYPE_HEADER -> {
@@ -59,10 +63,14 @@ class CommentListAdapter(private val context: Context, private val headerLayout:
                         .load(header?.thumbnail)
                         .placeholder(R.drawable.thumbnail_placeholder)
                         .into(holder.thumbnail)
+                holder.thumbnail.setOnClickListener { onLinkClickListener?.onClick(header!!) }
                 holder.title.text = header?.title
+                holder.title.setOnClickListener { onLinkClickListener?.onClick(header!!) }
                 holder.desc.text = header?.description
+                holder.desc.setOnClickListener { onLinkClickListener?.onClick(header!!) }
                 holder.tags.text = header?.tags
                 holder.author.text = header?.author
+                holder.author.setOnClickListener { onUserClickListener?.onClick(header!!.author) }
                 holder.date.text = header?.date
                 holder.digCount.text = context.getString(R.string.dig_count, header?.digCount)
                 holder.buryCount.text = context.getString(R.string.bury_count, header?.buryCount)
@@ -86,7 +94,9 @@ class CommentListAdapter(private val context: Context, private val headerLayout:
                         .load(items[position - 1].authorAvatar)
                         .placeholder(R.drawable.thumbnail_placeholder)
                         .into(holder.avatar)
+                holder.avatar.setOnClickListener { onUserClickListener?.onClick(items[position - 1].author) }
                 holder.author.text = items[position - 1].author
+                holder.author.setOnClickListener { onUserClickListener?.onClick(items[position - 1].author) }
                 holder.date.text = items[position - 1].date
                 holder.plusCount.text = context.getString(
                         R.string.comment_plus_count,
@@ -153,6 +163,13 @@ class CommentListAdapter(private val context: Context, private val headerLayout:
             emptyView?.visibility = View.GONE
     }
 
+    interface OnLinkClickListener {
+        fun onClick(link: Link)
+    }
+
+    interface OnUserClickListener {
+        fun onClick(username: String)
+    }
 }
 
 fun Comment.hasParent() = id != parentId

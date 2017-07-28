@@ -3,6 +3,7 @@ package com.tomaszstankowski.wykopapi.ui.activity
 import android.arch.lifecycle.LifecycleActivity
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -18,6 +19,7 @@ import com.tomaszstankowski.wykopapi.event.link.LinkLoadError
 import com.tomaszstankowski.wykopapi.event.link.LinkNotExists
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListEmpty
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListLoadError
+import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.ui.adapter.CommentListAdapter
 import com.tomaszstankowski.wykopapi.viemodel.LinkViewModel
 import com.tomaszstankowski.wykopapi.viemodel.LinkViewModelFactory
@@ -25,7 +27,10 @@ import javax.inject.Inject
 import javax.inject.Named
 
 
-class LinkActivity : LifecycleActivity() {
+class LinkActivity : LifecycleActivity(),
+        CommentListAdapter.OnLinkClickListener,
+        CommentListAdapter.OnUserClickListener {
+
     @Inject @field:[Named("link")] lateinit var bus: Bus
     private lateinit var viewModel: LinkViewModel
     private val recyclerView: RecyclerView by bindView(R.id.activity_link_recycler_view)
@@ -42,6 +47,8 @@ class LinkActivity : LifecycleActivity() {
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
         adapter = CommentListAdapter(this)
+        adapter.onLinkClickListener = this
+        adapter.onUserClickListener = this
         recyclerView.adapter = adapter
 
         val linkId = intent.getIntExtra(LINK_ID, -1)
@@ -74,6 +81,16 @@ class LinkActivity : LifecycleActivity() {
     override fun onPause() {
         super.onPause()
         bus.unregister(this)
+    }
+
+    override fun onClick(link: Link) {
+        val intent = Intent(this, PreviewActivity::class.java)
+        intent.putExtra(PreviewActivity.URL, link.src)
+        startActivity(intent)
+    }
+
+    override fun onClick(username: String) {
+
     }
 
     @Subscribe fun onLinkLoadError(e: LinkLoadError) {

@@ -4,7 +4,6 @@ import android.animation.AnimatorInflater
 import android.animation.AnimatorSet
 import android.arch.lifecycle.LifecycleFragment
 import android.arch.lifecycle.Observer
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.widget.LinearLayoutManager
@@ -20,8 +19,8 @@ import butterknife.bindView
 import com.squareup.otto.Bus
 import com.squareup.otto.Subscribe
 import com.tomaszstankowski.wykopapi.R
-import com.tomaszstankowski.wykopapi.event.link_list.LinkListEmpty
 import com.tomaszstankowski.wykopapi.event.link_list.LinkListLoadError
+import com.tomaszstankowski.wykopapi.event.link_list.LinksNotFound
 import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.ui.activity.LinkActivity
 import com.tomaszstankowski.wykopapi.ui.adapter.LinkListAdapter
@@ -107,7 +106,7 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
         bus.unregister(this)
     }
 
-    @Subscribe fun onListEmpty(e: LinkListEmpty) {
+    @Subscribe fun onListEmpty(e: LinksNotFound) {
         adapter.removeItems()
     }
 
@@ -116,9 +115,7 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
     }
 
     override fun onItemClicked(position: Int, link: Link) {
-        val intent = Intent(context, LinkActivity::class.java)
-        intent.putExtra(LinkActivity.LINK_ID, link.id)
-        startActivity(intent)
+        LinkActivity.start(activity, link.id)
     }
 
     fun showRefreshButton() {

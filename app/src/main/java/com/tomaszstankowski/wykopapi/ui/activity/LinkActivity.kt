@@ -1,12 +1,17 @@
 package com.tomaszstankowski.wykopapi.ui.activity
 
-import android.arch.lifecycle.LifecycleActivity
+import android.arch.lifecycle.LifecycleRegistry
+import android.arch.lifecycle.LifecycleRegistryOwner
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.support.v7.widget.Toolbar
+import android.view.MenuItem
 import android.view.View
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -16,7 +21,7 @@ import com.squareup.otto.Subscribe
 import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.R
 import com.tomaszstankowski.wykopapi.event.link.LinkLoadError
-import com.tomaszstankowski.wykopapi.event.link.LinkNotExists
+import com.tomaszstankowski.wykopapi.event.link.LinkNotFound
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListEmpty
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListLoadError
 import com.tomaszstankowski.wykopapi.model.Link
@@ -27,12 +32,17 @@ import javax.inject.Inject
 import javax.inject.Named
 
 
-class LinkActivity : LifecycleActivity(),
+class LinkActivity : AppCompatActivity(),
+        LifecycleRegistryOwner,
         CommentListAdapter.OnLinkClickListener,
         CommentListAdapter.OnUserClickListener {
 
+    val registry = LifecycleRegistry(this)
+    override fun getLifecycle() = registry
+
     @Inject @field:[Named("link")] lateinit var bus: Bus
     private lateinit var viewModel: LinkViewModel
+    private val toolbar: Toolbar by bindView(R.id.activity_link_toolbar)
     private val recyclerView: RecyclerView by bindView(R.id.activity_link_recycler_view)
     private val progressbar: ProgressBar by bindView(R.id.activity_link_progressbar)
     private lateinit var adapter: CommentListAdapter
@@ -43,6 +53,9 @@ class LinkActivity : LifecycleActivity(),
         (application as App).component.inject(this)
 
         setContentView(R.layout.activity_link)
+        setSupportActionBar(toolbar)
+        supportActionBar?.title = getString(R.string.link)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
@@ -73,6 +86,15 @@ class LinkActivity : LifecycleActivity(),
         }
     }
 
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item?.itemId) {
+            android.R.id.home -> {
+                onBackPressed(); return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onResume() {
         super.onResume()
         bus.register(this)
@@ -84,20 +106,18 @@ class LinkActivity : LifecycleActivity(),
     }
 
     override fun onClick(link: Link) {
-        val intent = Intent(this, PreviewActivity::class.java)
-        intent.putExtra(PreviewActivity.URL, link.src)
-        startActivity(intent)
+        PreviewActivity.start(this, link.src)
     }
 
-    override fun onClick(username: String) {
-
+    override fun onClick(user: String) {
+        UserActivity.start(this, user)
     }
 
     @Subscribe fun onLinkLoadError(e: LinkLoadError) {
         Toast.makeText(this, R.string.load_error, Toast.LENGTH_LONG).show()
     }
 
-    @Subscribe fun onLinkNotExists(e: LinkNotExists) {
+    @Subscribe fun onLinkNotExists(e: LinkNotFound) {
         adapter.header = null
         Toast.makeText(this, R.string.link_not_exists, Toast.LENGTH_LONG).show()
     }
@@ -112,5 +132,11 @@ class LinkActivity : LifecycleActivity(),
 
     companion object {
         val LINK_ID: String = "LINK_ID"
+
+        fun start(context: Context, linkId: Int) {
+            val intent = Intent(context, LinkActivity::class.java)
+            intent.putExtra(LINK_ID, linkId)
+            context.startActivity(intent)
+        }
     }
 }

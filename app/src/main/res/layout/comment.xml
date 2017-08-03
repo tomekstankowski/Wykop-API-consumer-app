@@ -19,8 +19,8 @@
 
             <ImageView
                 android:id="@+id/comment_avatar_iv"
-                android:layout_width="@dimen/comment_author_thumbnail"
-                android:layout_height="@dimen/comment_author_thumbnail"
+                android:layout_width="@dimen/comment_avatar"
+                android:layout_height="@dimen/comment_avatar"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"

@@ -14,7 +14,7 @@ import com.google.gson.annotations.SerializedName
                 Index(value = "author")
         ))
 class Link(
-        @PrimaryKey var id: Int = 0,
+        @PrimaryKey var id: Int = -1,
         var title: String = "",
         var description: String = "",
         var tags: String = "",

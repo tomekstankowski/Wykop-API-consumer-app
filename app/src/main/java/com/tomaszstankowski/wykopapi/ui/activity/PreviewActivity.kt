@@ -1,5 +1,7 @@
 package com.tomaszstankowski.wykopapi.ui.activity
 
+import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
@@ -33,6 +35,12 @@ class PreviewActivity : AppCompatActivity() {
 
     companion object {
         val URL = "URL"
+
+        fun start(context: Context, url: String) {
+            val intent = Intent(context, PreviewActivity::class.java)
+            intent.putExtra(URL, url)
+            context.startActivity(intent)
+        }
     }
 
 }

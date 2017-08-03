@@ -6,7 +6,7 @@ import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.model.PromotedLink
 import com.tomaszstankowski.wykopapi.persistence.LinkDao
 import com.tomaszstankowski.wykopapi.persistence.WykopDatabase
-import com.tomaszstankowski.wykopapi.service.WykopService
+import com.tomaszstankowski.wykopapi.service.Service
 import io.reactivex.Completable
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -15,10 +15,10 @@ import javax.inject.Singleton
 
 /**
  * Repository stands as the single source of truth.
- * The data comes from the webservice and is persisted in db.
+ * The data comes from the wykopAPI and is persisted in db.
  */
 @Singleton class LinkRepository
-@Inject constructor(private val service: WykopService,
+@Inject constructor(private val service: Service,
                     private val dao: LinkDao,
                     private val db: WykopDatabase) {
 
@@ -52,7 +52,7 @@ import javax.inject.Singleton
             val response = service.getLink(id).execute()
             if (response.isSuccessful) {
                 val link = response.body()
-                if (link == null) {
+                if (link == null || link.id == -1) {
                     it.onError(NoDataExistsError())
                 } else {
                     dao.save(link)

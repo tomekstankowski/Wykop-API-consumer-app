@@ -8,7 +8,7 @@ import com.squareup.otto.Bus
 import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.event.link.LinkLoadError
 import com.tomaszstankowski.wykopapi.event.link.LinkLoadSuccess
-import com.tomaszstankowski.wykopapi.event.link.LinkNotExists
+import com.tomaszstankowski.wykopapi.event.link.LinkNotFound
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListEmpty
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListLoadError
 import com.tomaszstankowski.wykopapi.event.link.comments.CommentListLoadSuccess
@@ -36,7 +36,7 @@ class LinkViewModel(app: Application, val linkId: Int) : AndroidViewModel(app) {
     private val onLinkLoadError: (Throwable) -> Unit = { t ->
         isLinkLoading.value = false
         when (t) {
-            is NoDataExistsError -> bus.post(LinkNotExists())
+            is NoDataExistsError -> bus.post(LinkNotFound())
             else -> bus.post(LinkLoadError())
         }
     }

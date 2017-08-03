@@ -15,4 +15,6 @@ import javax.inject.Singleton
 
     @Provides @Singleton @Named("link_list") fun linkListBus() = Bus("link_list")
     @Provides @Singleton @Named("link") fun linkBus() = Bus("link")
+    @Provides @Singleton @Named("user") fun userBus() = Bus("user")
+
 }

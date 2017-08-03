@@ -4,6 +4,7 @@
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowContentTransitions">true</item>
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
@@ -15,18 +16,18 @@
     </style>
 
     <style name="Title" parent="Text">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
         <item name="android:textColor">@android:color/primary_text_light</item>
     </style>
 
     <style name="Text">
-        <item name="android:textSize">12sp</item>
+        <item name="android:textSize">14sp</item>
         <item name="android:textColor">@android:color/secondary_text_light</item>
         <item name="android:textAlignment">center</item>
     </style>
 
     <style name="Text.Small" parent="Text">
-        <item name="android:textSize">10sp</item>
+        <item name="android:textSize">12sp</item>
         <item name="android:textColor">@android:color/tertiary_text_light</item>
     </style>
 
@@ -35,12 +36,10 @@
     </style>
 
     <style name="Text.Clickable.Big" parent="Text.Clickable">
-        <item name="android:textSize">14sp</item>
+        <item name="android:textSize">16sp</item>
     </style>
 
-    <style name="Label" parent="Text">
-        <item name="android:textSize">12sp</item>
-        <item name="android:textColor">@android:color/tertiary_text_light</item>
+    <style name="Label" parent="Text.Small">
         <item name="android:background">@drawable/label</item>
     </style>
 

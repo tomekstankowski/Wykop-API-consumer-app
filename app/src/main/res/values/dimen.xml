@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <dimen name="comment_author_thumbnail">48dp</dimen>
-    <dimen name="link_preview_width">104dp</dimen>
-    <dimen name="link_preview_height">74dp</dimen>
-    <dimen name="link_preview_big_width">156dp</dimen>
-    <dimen name="link_preview_big_height">111dp</dimen>
+    <dimen name="comment_avatar">48dp</dimen>
+    <dimen name="avatar">150dp</dimen>
+    <dimen name="link_preview_w">104dp</dimen>
+    <dimen name="link_preview_h">74dp</dimen>
+    <dimen name="link_preview_big_w">156dp</dimen>
+    <dimen name="link_preview_big_h">111dp</dimen>
 </resources>

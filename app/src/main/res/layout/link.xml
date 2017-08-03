@@ -18,8 +18,9 @@
 
             <ImageView
                 android:id="@+id/link_thumbnail"
-                android:layout_width="@dimen/link_preview_big_width"
-                android:layout_height="@dimen/link_preview_big_height"
+                android:layout_width="@dimen/link_preview_big_w"
+                android:layout_height="@dimen/link_preview_big_h"
+                android:transitionName="link"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 app:layout_constraintStart_toStartOf="parent"

@@ -20,8 +20,9 @@
 
             <ImageView
                 android:id="@+id/link_preview_thumbnail_iv"
-                android:layout_width="@dimen/link_preview_width"
-                android:layout_height="@dimen/link_preview_height"
+                android:layout_width="@dimen/link_preview_w"
+                android:layout_height="@dimen/link_preview_h"
+                android:transitionName="link"
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 card_view:layout_constraintStart_toStartOf="parent"

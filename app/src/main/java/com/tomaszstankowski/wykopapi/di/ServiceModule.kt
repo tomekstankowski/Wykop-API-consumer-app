@@ -1,6 +1,6 @@
 package com.tomaszstankowski.wykopapi.di
 
-import com.tomaszstankowski.wykopapi.service.Webservice
+import com.tomaszstankowski.wykopapi.service.WykopAPI
 import dagger.Module
 import dagger.Provides
 import retrofit2.Retrofit
@@ -19,6 +19,6 @@ import javax.inject.Singleton
                 .build()
     }
 
-    @Provides @Singleton fun webservice(retrofit: Retrofit) = retrofit.create(Webservice::class.java)
+    @Provides @Singleton fun webservice(retrofit: Retrofit) = retrofit.create(WykopAPI::class.java)
 
 }

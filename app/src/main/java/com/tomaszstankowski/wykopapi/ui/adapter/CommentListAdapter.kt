@@ -61,7 +61,6 @@ class CommentListAdapter(private val context: Context, private val headerLayout:
                 Glide.with(context)
                         .fromString()
                         .load(header?.thumbnail)
-                        .placeholder(R.drawable.thumbnail_placeholder)
                         .into(holder.thumbnail)
                 holder.thumbnail.setOnClickListener { onLinkClickListener?.onClick(header!!) }
                 holder.title.text = header?.title
@@ -168,7 +167,7 @@ class CommentListAdapter(private val context: Context, private val headerLayout:
     }
 
     interface OnUserClickListener {
-        fun onClick(username: String)
+        fun onClick(user: String)
     }
 }
 

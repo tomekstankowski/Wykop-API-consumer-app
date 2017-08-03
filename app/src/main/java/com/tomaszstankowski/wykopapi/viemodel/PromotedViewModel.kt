@@ -4,9 +4,9 @@ import android.app.Application
 import android.arch.lifecycle.LiveData
 import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.event.link_list.LastPageReached
-import com.tomaszstankowski.wykopapi.event.link_list.LinkListEmpty
 import com.tomaszstankowski.wykopapi.event.link_list.LinkListLoadError
 import com.tomaszstankowski.wykopapi.event.link_list.LinkListLoadSuccess
+import com.tomaszstankowski.wykopapi.event.link_list.LinksNotFound
 import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.repository.NoDataExistsError
 
@@ -42,7 +42,7 @@ class PromotedViewModel(app: Application) : LinkListViewModel(app) {
         isLoading.value = false
         when (t) {
             is NoDataExistsError -> {
-                bus.post(LinkListEmpty())
+                bus.post(LinksNotFound())
             }
             else -> bus.post(LinkListLoadError())
         }

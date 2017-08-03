@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">WykopAPI</string>
     <!--Labels-->
+    <string name="link">Link</string>
     <string name="dig_count">Wykopy %1$d</string>
     <string name="bury_count">Zakopy %1$d</string>
     <string name="comment_count">Komentarze %1$d</string>
@@ -9,6 +10,14 @@
     <string name="author">Dodany przez</string>
     <string name="empty">Nic tu nie ma</string>
     <string name="preview">Podgląd</string>
+    <string name="signup_date">Dołączył %1$s</string>
+    <string name="rank">#%1$d</string>
+    <string name="about">Opis</string>
+    <string name="city">Miasto</string>
+    <string name="user">Użytkownik</string>
+    <string name="followers_count">Obserwujący %1$d</string>
+    <string name="links_added_count">Dodane linki %1$d</string>
+    <string name="user_not_found">Nie istnieje użytkownik o nazwie %1$s</string>
     <!--Actions-->
     <string name="refresh">Odśwież</string>
     <!--Callbacks-->

@@ -17,23 +17,21 @@ import android.widget.TextView
 import android.widget.Toast
 import butterknife.bindView
 import com.bumptech.glide.Glide
-import com.squareup.otto.Bus
-import com.squareup.otto.Subscribe
 import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.R
-import com.tomaszstankowski.wykopapi.event.user.UserLoadError
-import com.tomaszstankowski.wykopapi.event.user.UserNotFound
+import com.tomaszstankowski.wykopapi.model.User
+import com.tomaszstankowski.wykopapi.viemodel.ResourceStatus
 import com.tomaszstankowski.wykopapi.viemodel.UserViewModel
 import com.tomaszstankowski.wykopapi.viemodel.UserViewModelFactory
-import javax.inject.Inject
-import javax.inject.Named
 
-
+/**
+ * Displays details about user.
+ */
 class UserActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     val registry = LifecycleRegistry(this)
+    override fun getLifecycle() = registry
 
-    @Inject @field:[Named("user")] lateinit var bus: Bus
     lateinit var viewModel: UserViewModel
 
     val toolbar: Toolbar by bindView(R.id.activity_user_toolbar)
@@ -50,50 +48,62 @@ class UserActivity : AppCompatActivity(), LifecycleRegistryOwner {
     val cityTv: TextView by bindView(R.id.activity_user_city_tv)
     val avatar: ImageView by bindView(R.id.activity_user_avatar_iv)
 
-    override fun getLifecycle() = registry
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         (application as App).component.inject(this)
-
         setContentView(R.layout.activity_user)
+        setActionBar()
+        setViewModel()
+    }
+
+    private fun setActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.user)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    }
 
+    private fun setViewModel() {
         val username = intent.getStringExtra(USERNAME)
         val factory = UserViewModelFactory(application, username)
         viewModel = ViewModelProviders.of(this, factory).get(UserViewModel::class.java)
-        viewModel.user.observe(this, Observer { value ->
-            if (value != null) {
-                container.visibility = View.VISIBLE
-                notFoundTv.visibility = View.GONE
-                Glide.with(this)
-                        .fromString()
-                        .load(value.avatar)
-                        .into(avatar)
-                loginTv.text = value.login
-                nameTv.text = value.name
-                signupDateTv.text = getString(R.string.signup_date, value.signupDate)
-                followersTv.text = getString(R.string.followers_count, value.followers)
-                linksAddedTv.text = getString(R.string.links_added_count, value.linksAdded)
-                aboutTv.text = value.about
-                cityTv.text = value.city
-                rankTv.text = if (value.rank > 0) getString(R.string.rank, value.rank) else ""
-                val color = if (value.sex == "male") resources.getColor(R.color.blue)
-                else resources.getColor(R.color.pink)
-                rankTv.setBackgroundColor(color)
+        viewModel.user.observe(this, Observer { displayUser(it) })
+        viewModel.userStatus.observe(this, Observer {
+            progressbar.visibility = if (it == ResourceStatus.LOADING) View.VISIBLE else View.GONE
+            when (it) {
+                ResourceStatus.ERROR ->
+                    Toast.makeText(this, R.string.load_error, Toast.LENGTH_LONG).show()
+                ResourceStatus.NOT_FOUND -> {
+                    notFoundTv.visibility = View.VISIBLE
+                    notFoundTv.text = getString(R.string.user_not_found, intent.getStringExtra(USERNAME))
+                    container.visibility = View.GONE
+                }
             }
         })
-        viewModel.isLoading.observe(this, Observer { value ->
-            if (value != null) {
-                if (value)
-                    progressbar.visibility = View.VISIBLE
-                else
-                    progressbar.visibility = View.GONE
-            }
-        })
+    }
+
+    private fun displayUser(user: User?) {
+        if (user != null) {
+            container.visibility = View.VISIBLE
+            notFoundTv.visibility = View.GONE
+            Glide.with(this)
+                    .fromString()
+                    .load(user.avatar)
+                    .into(avatar)
+            loginTv.text = user.login
+            nameTv.text = user.name
+            signupDateTv.text = getString(R.string.signup_date, user.signupDate)
+            followersTv.text = getString(R.string.followers_count, user.followers)
+            linksAddedTv.text = getString(R.string.links_added_count, user.linksAdded)
+            aboutTv.text = user.about
+            cityTv.text = user.city
+            rankTv.text = if (user.rank > 0) getString(R.string.rank, user.rank) else ""
+            val color = if (user.sex == "male") resources.getColor(R.color.blue)
+            else resources.getColor(R.color.pink)
+            rankTv.setBackgroundColor(color)
+        } else {
+            container.visibility = View.GONE
+        }
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -106,22 +116,10 @@ class UserActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     override fun onResume() {
         super.onResume()
-        bus.register(this)
     }
 
     override fun onPause() {
         super.onPause()
-        bus.unregister(this)
-    }
-
-    @Subscribe fun userNotFound(e: UserNotFound) {
-        notFoundTv.visibility = View.VISIBLE
-        notFoundTv.text = getString(R.string.user_not_found, intent.getStringExtra(USERNAME))
-        container.visibility = View.GONE
-    }
-
-    @Subscribe fun userLoadError(e: UserLoadError) {
-        Toast.makeText(this, R.string.load_error, Toast.LENGTH_LONG).show()
     }
 
     companion object {

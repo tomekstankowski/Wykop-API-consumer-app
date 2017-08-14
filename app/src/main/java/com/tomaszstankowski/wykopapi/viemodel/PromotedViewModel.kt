@@ -3,10 +3,7 @@ package com.tomaszstankowski.wykopapi.viemodel
 import android.app.Application
 import android.arch.lifecycle.LiveData
 import com.tomaszstankowski.wykopapi.App
-import com.tomaszstankowski.wykopapi.event.link_list.LastPageReached
-import com.tomaszstankowski.wykopapi.event.link_list.LinkListLoadError
-import com.tomaszstankowski.wykopapi.event.link_list.LinkListLoadSuccess
-import com.tomaszstankowski.wykopapi.event.link_list.LinksNotFound
+
 import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.repository.NoDataExistsError
 
@@ -16,50 +13,47 @@ class PromotedViewModel(app: Application) : LinkListViewModel(app) {
     }
 
     override val onPageLoadSuccess = {
-        isLoading.value = false
         page++
-        bus.post(LinkListLoadSuccess())
+        linksStatus.value = ResourceStatus.OK
     }
 
     override val onPageLoadFailure = { t: Throwable ->
-        isLoading.value = false
+        linksStatus.value =
         when (t) {
             is NoDataExistsError -> {
-                hasMorePages = false; bus.post(LastPageReached())
+                hasMorePages = false
+                ResourceStatus.NOT_FOUND
             }
-            else -> bus.post(LinkListLoadError())
+            else -> ResourceStatus.ERROR
         }
     }
 
-    override val onPageRefreshSuccess = {
-        isLoading.value = false
+    override val onRefreshSuccess = {
+        linksStatus.value = ResourceStatus.OK
         hasMorePages = true
         page = 1
-        bus.post(LinkListLoadSuccess())
     }
 
-    override val onPageRefreshFailure = { t: Throwable ->
-        isLoading.value = false
+    override val onRefreshFailure = { t: Throwable ->
+        linksStatus.value =
         when (t) {
-            is NoDataExistsError -> {
-                bus.post(LinksNotFound())
-            }
-            else -> bus.post(LinkListLoadError())
+            is NoDataExistsError -> ResourceStatus.NOT_FOUND
+            else -> ResourceStatus.ERROR
         }
     }
 
     override val links: LiveData<List<Link>> by lazy {
-        isLoading.value = true
-        repository.getPromotedLinks(onPageRefreshSuccess, onPageRefreshFailure)
+        linksStatus.value = ResourceStatus.LOADING
+        repository.getPromotedLinks(onRefreshSuccess, onRefreshFailure)
     }
 
     override fun loadNextPage() {
-        isLoading.value = true
+        linksStatus.value = ResourceStatus.LOADING
         repository.loadPromoted(page + 1, onPageLoadSuccess, onPageLoadFailure)
     }
 
     override fun refresh() {
-        isLoading.value = true
-        repository.refreshPromoted(onPageRefreshSuccess, onPageRefreshFailure)
+        linksStatus.value = ResourceStatus.LOADING
+        repository.refreshPromoted(onRefreshSuccess, onRefreshFailure)
     }
 }

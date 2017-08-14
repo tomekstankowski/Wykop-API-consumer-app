@@ -11,7 +11,7 @@ import com.tomaszstankowski.wykopapi.viemodel.PromotedViewModel
  */
 class PromotedFragment : LinkListFragment(), LinkListAdapter.OnClickListener {
 
-    override fun initViewModel() {
+    override fun setViewModel() {
         viewModel = ViewModelProviders.of(this).get(PromotedViewModel::class.java)
     }
 

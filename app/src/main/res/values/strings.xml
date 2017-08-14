@@ -17,10 +17,10 @@
     <string name="user">Użytkownik</string>
     <string name="followers_count">Obserwujący %1$d</string>
     <string name="links_added_count">Dodane linki %1$d</string>
-    <string name="user_not_found">Nie istnieje użytkownik o nazwie %1$s</string>
+    <string name="user_not_found">Nie znaleziono użytkownika o nazwie %1$s</string>
     <!--Actions-->
     <string name="refresh">Odśwież</string>
     <!--Callbacks-->
-    <string name="load_error">Nie można wczytać zawartości.</string>
+    <string name="load_error">Błąd podczas wczytywania zawartości.</string>
     <string name="link_not_exists">Link nie istnieje.</string>
 </resources>

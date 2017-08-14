@@ -29,7 +29,7 @@
 
             <TextView
                 android:id="@+id/comment_author_tv"
-                style="@style/Text.Clickable.Big"
+                style="@style/Text.Clickable"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="8dp"
@@ -44,7 +44,7 @@
 
             <TextView
                 android:id="@+id/comment_date_tv"
-                style="@style/Text"
+                style="@style/Text.Small"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"

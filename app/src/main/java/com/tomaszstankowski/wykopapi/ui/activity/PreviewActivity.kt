@@ -18,8 +18,16 @@ class PreviewActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_preview)
+        setWebview()
+        setActionBar()
+    }
+
+    private fun setWebview() {
         val url = intent.getStringExtra(URL)
         webview.loadUrl(url)
+    }
+
+    private fun setActionBar() {
         setSupportActionBar(toolbar)
         supportActionBar?.title = getString(R.string.preview)
         supportActionBar?.setDisplayHomeAsUpEnabled(true)

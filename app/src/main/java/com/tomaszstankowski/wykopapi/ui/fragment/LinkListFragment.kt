@@ -12,38 +12,31 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import butterknife.bindView
-import com.squareup.otto.Bus
-import com.squareup.otto.Subscribe
 import com.tomaszstankowski.wykopapi.R
-import com.tomaszstankowski.wykopapi.event.link_list.LinkListLoadError
-import com.tomaszstankowski.wykopapi.event.link_list.LinksNotFound
 import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.ui.activity.LinkActivity
 import com.tomaszstankowski.wykopapi.ui.adapter.LinkListAdapter
 import com.tomaszstankowski.wykopapi.viemodel.LinkListViewModel
-import javax.inject.Inject
-import javax.inject.Named
+import com.tomaszstankowski.wykopapi.viemodel.ResourceStatus
 
 
 /**
- * Base class for other fragments displaying links in a recycler view.
+ * Base class for other fragments displaying link previews in a recyclerview.
  * Does not know where links come from, it just knows how to display them.
  */
 abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickListener {
 
+    protected lateinit var viewModel: LinkListViewModel
+
     private val recyclerView: RecyclerView by bindView(R.id.fragment_links_recycler_view)
-    private val progressbar: ProgressBar by bindView(R.id.fragment_links_progressbar)
     private val refreshButton: Button by bindView(R.id.fragment_links_refresh_button)
     private val emptyView: TextView by bindView(R.id.fragment_links_empty_tv)
     private val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.fragment_links_swipe_refresh_layout)
-    private lateinit var adapter: LinkListAdapter
-    protected lateinit var viewModel: LinkListViewModel
-    @Inject @field:[Named("link_list")] protected lateinit var bus: Bus
 
+    private lateinit var adapter: LinkListAdapter
 
     override fun onCreateView(inflater: LayoutInflater?,
                               container: ViewGroup?,
@@ -51,44 +44,17 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
         return inflater?.inflate(R.layout.fragment_links, container, false)
     }
 
-
-    abstract fun initViewModel()
+    abstract fun setViewModel()
 
     abstract fun inject()
 
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-
         inject()
-
-        val layoutManager = LinearLayoutManager(context)
-        recyclerView.layoutManager = layoutManager
-        adapter = LinkListAdapter(context, R.layout.link_preview)
-        adapter.emptyView = emptyView
-        adapter.onClickListener = this
-        recyclerView.adapter = adapter
-        recyclerView.addOnScrollListener(ScrollListener(layoutManager))
-
-        initViewModel()
-        viewModel.links.observe(this, Observer {
-            if (it != null)
-                adapter.setItems(it)
-        })
-        viewModel.isLoading.observe(this, Observer {
-            if (it != null) {
-                if (it == true)
-                    progressbar.visibility = View.VISIBLE
-                else {
-                    progressbar.visibility = View.GONE
-                    swipeRefreshLayout.isRefreshing = false
-                }
-            }
-        })
-
-        swipeRefreshLayout.setOnRefreshListener {
-            viewModel.refresh()
-        }
-
+        setRecyclerview()
+        setViewModel()
+        observeData()
+        swipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
         refreshButton.setOnClickListener {
             viewModel.refresh()
             recyclerView.smoothScrollToPosition(0)
@@ -96,22 +62,32 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
         }
     }
 
+    private fun setRecyclerview() {
+        val layoutManager = LinearLayoutManager(context)
+        recyclerView.layoutManager = layoutManager
+        adapter = LinkListAdapter(context, R.layout.link_preview)
+        adapter.emptyView = emptyView
+        recyclerView.adapter = adapter
+        recyclerView.addOnScrollListener(ScrollListener(layoutManager))
+    }
+
+    private fun observeData() {
+        viewModel.links.observe(this, Observer { if (it != null) adapter.setItems(it) })
+        viewModel.linksStatus.observe(this, Observer {
+            swipeRefreshLayout.isRefreshing = it == ResourceStatus.LOADING
+            if (it == ResourceStatus.ERROR)
+                Toast.makeText(activity, R.string.load_error, Toast.LENGTH_LONG).show()
+        })
+    }
+
     override fun onResume() {
         super.onResume()
-        bus.register(this)
+        adapter.onClickListener = this
     }
 
     override fun onPause() {
         super.onPause()
-        bus.unregister(this)
-    }
-
-    @Subscribe fun onListEmpty(e: LinksNotFound) {
-        adapter.removeItems()
-    }
-
-    @Subscribe fun onLoadError(e: LinkListLoadError) {
-        Toast.makeText(context, R.string.load_error, Toast.LENGTH_LONG).show()
+        adapter.onClickListener = null
     }
 
     override fun onItemClicked(position: Int, link: Link) {
@@ -128,15 +104,11 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
         set.start()
     }
 
-    fun loadNextPage() {
-        viewModel.loadNextPage()
-    }
-
     inner open class ScrollListener(val layoutManager: LinearLayoutManager) : RecyclerView.OnScrollListener() {
 
         override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
             val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-            val isLoading = viewModel.isLoading.value ?: false
+            val isLoading = viewModel.linksStatus.value == ResourceStatus.LOADING
             if (dy < 0) {
                 val isTop = pastVisibleItems < 5
                 if (!isTop && !isLoading)
@@ -148,7 +120,7 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
                 val totalItemCount = layoutManager.itemCount
                 val isBottom = pastVisibleItems + visibleItemCount >= totalItemCount
                 if (isBottom && !isLoading && viewModel.hasMorePages)
-                    loadNextPage()
+                    viewModel.loadNextPage()
             }
         }
     }

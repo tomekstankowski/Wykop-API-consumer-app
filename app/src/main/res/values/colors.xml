@@ -4,9 +4,13 @@
     <color name="colorPrimaryDark">#008975</color>
     <color name="colorAccent">#e91e63</color>
     <color name="primaryText">#de000000</color>
+    <color name="primaryTextInverse">#ffffffff</color>
     <color name="secondaryText">#8c000000</color>
+    <color name="secondaryTextInverse">#b3ffffff</color>
     <color name="tertiaryText">#60000000</color>
+    <color name="tertiaryTextInverse">#80ffffff</color>
     <color name="dividerColor">#1f000000</color>
+    <color name="dividerColorInverse">#1fffffff</color>
     <color name="green">#4caf50</color>
     <color name="red">#f44336</color>
     <color name="pink">#e91e63</color>

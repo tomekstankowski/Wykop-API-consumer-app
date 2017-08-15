@@ -7,17 +7,16 @@ import android.arch.lifecycle.ViewModelProviders
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.widget.SwipeRefreshLayout
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
-import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import butterknife.bindView
 import com.bumptech.glide.Glide
-import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.R
 import com.tomaszstankowski.wykopapi.model.User
 import com.tomaszstankowski.wykopapi.viemodel.ResourceStatus
@@ -35,9 +34,9 @@ class UserActivity : AppCompatActivity(), LifecycleRegistryOwner {
     lateinit var viewModel: UserViewModel
 
     val toolbar: Toolbar by bindView(R.id.activity_user_toolbar)
-    val progressbar: ProgressBar by bindView(R.id.activity_user_progressbar)
     val container: View by bindView(R.id.activity_user_container)
     val notFoundTv: TextView by bindView(R.id.activity_user_not_found_tv)
+    val swipeRefreshLayout: SwipeRefreshLayout by bindView(R.id.activity_user_swipe_refresh_layout)
     val loginTv: TextView by bindView(R.id.activity_user_login_tv)
     val signupDateTv: TextView by bindView(R.id.activity_user_signup_date_tv)
     val followersTv: TextView by bindView(R.id.activity_user_followers_tv)
@@ -51,10 +50,10 @@ class UserActivity : AppCompatActivity(), LifecycleRegistryOwner {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (application as App).component.inject(this)
         setContentView(R.layout.activity_user)
         setActionBar()
         setViewModel()
+        swipeRefreshLayout.setOnRefreshListener { viewModel.refresh() }
     }
 
     private fun setActionBar() {
@@ -69,7 +68,7 @@ class UserActivity : AppCompatActivity(), LifecycleRegistryOwner {
         viewModel = ViewModelProviders.of(this, factory).get(UserViewModel::class.java)
         viewModel.user.observe(this, Observer { displayUser(it) })
         viewModel.userStatus.observe(this, Observer {
-            progressbar.visibility = if (it == ResourceStatus.LOADING) View.VISIBLE else View.GONE
+            swipeRefreshLayout.isRefreshing = it == ResourceStatus.LOADING
             when (it) {
                 ResourceStatus.ERROR ->
                     Toast.makeText(this, R.string.load_error, Toast.LENGTH_LONG).show()

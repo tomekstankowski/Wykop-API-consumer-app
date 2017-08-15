@@ -24,180 +24,171 @@
         android:text="@string/user_not_found"
         android:visibility="gone" />
 
-    <ProgressBar
-        android:id="@+id/activity_user_progressbar"
-        style="?android:attr/progressBarStyle"
+    <android.support.v4.widget.SwipeRefreshLayout
+        android:id="@+id/activity_user_swipe_refresh_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="0dp"
-        android:layout_marginEnd="0dp"
-        android:layout_marginStart="0dp"
-        android:layout_marginTop="0dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="172dp" />
+        android:layout_height="match_parent">
 
-    <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/activity_user_container"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:visibility="gone">
 
-        <ImageView
-            android:id="@+id/activity_user_avatar_iv"
-            android:layout_width="@dimen/avatar"
-            android:layout_height="@dimen/avatar"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/thumbnail_placeholder" />
+        <android.support.constraint.ConstraintLayout xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/activity_user_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
 
-        <TextView
-            android:id="@+id/activity_user_rank_tv"
-            style="@style/Text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="0dp"
-            android:layout_marginEnd="0dp"
-            android:layout_marginStart="0dp"
-            android:background="@color/blue"
-            android:paddingEnd="4dp"
-            android:paddingStart="4dp"
-            android:text="#5350"
-            android:textAlignment="textEnd"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintEnd_toEndOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintTop_toTopOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintVertical_bias="1.0" />
+            <ImageView
+                android:id="@+id/activity_user_avatar_iv"
+                android:layout_width="@dimen/avatar"
+                android:layout_height="@dimen/avatar"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/activity_user_login_tv"
-            style="@style/Text.Clickable"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="janusz2131"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintTop_toTopOf="parent" />
+            <TextView
+                android:id="@+id/activity_user_rank_tv"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="0dp"
+                android:layout_marginEnd="0dp"
+                android:layout_marginStart="0dp"
+                android:background="@color/blue"
+                android:paddingEnd="4dp"
+                android:paddingStart="4dp"
+                android:text="#5350"
+                android:textAlignment="textEnd"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintEnd_toEndOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintTop_toTopOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintVertical_bias="1.0" />
 
-        <TextView
-            android:id="@+id/activity_user_signup_date_tv"
-            style="@style/Text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="@string/signup_date"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintTop_toBottomOf="@+id/activity_user_name_tv" />
+            <TextView
+                android:id="@+id/activity_user_login_tv"
+                style="@style/Text.Clickable"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="janusz2131"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/activity_user_name_tv"
-            style="@style/Text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="Janusz Gajios"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv"
-            app:layout_constraintTop_toBottomOf="@+id/activity_user_login_tv" />
+            <TextView
+                android:id="@+id/activity_user_signup_date_tv"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="@string/signup_date"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintTop_toBottomOf="@+id/activity_user_name_tv" />
 
-        <TextView
-            android:id="@+id/activity_user_followers_tv"
-            style="@style/Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/followers_count"
-            app:layout_constraintBottom_toTopOf="@+id/activity_user_links_added_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv" />
+            <TextView
+                android:id="@+id/activity_user_name_tv"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Janusz Gajios"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv"
+                app:layout_constraintTop_toBottomOf="@+id/activity_user_login_tv" />
 
-        <TextView
-            android:id="@+id/activity_user_links_added_tv"
-            style="@style/Label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:text="@string/links_added_count"
-            app:layout_constraintBottom_toBottomOf="@+id/activity_user_rank_tv"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv" />
+            <TextView
+                android:id="@+id/activity_user_followers_tv"
+                style="@style/Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/followers_count"
+                app:layout_constraintBottom_toTopOf="@+id/activity_user_links_added_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv" />
 
-        <TextView
-            android:id="@+id/activity_user_about_label_tv"
-            style="@style/Text.Small"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/about"
-            android:textAlignment="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_user_avatar_iv"
-            tools:layout_editor_absoluteX="53dp" />
+            <TextView
+                android:id="@+id/activity_user_links_added_tv"
+                style="@style/Label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:text="@string/links_added_count"
+                app:layout_constraintBottom_toBottomOf="@+id/activity_user_rank_tv"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/activity_user_avatar_iv" />
 
-        <TextView
-            android:id="@+id/activity_user_about_tv"
-            style="@style/Text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="hehehehehehe"
-            android:textAlignment="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_user_about_label_tv" />
+            <TextView
+                android:id="@+id/activity_user_about_label_tv"
+                style="@style/Text.Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/about"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_user_avatar_iv"
+                tools:layout_editor_absoluteX="53dp" />
 
-        <TextView
-            android:id="@+id/activity_user_city_label_tv"
-            style="@style/Text.Small"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="8dp"
-            android:text="@string/city"
-            android:textAlignment="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_user_about_tv" />
+            <TextView
+                android:id="@+id/activity_user_about_tv"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="hehehehehehe"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_user_about_label_tv" />
 
-        <TextView
-            android:id="@+id/activity_user_city_tv"
-            style="@style/Text"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:layout_marginTop="4dp"
-            android:text="Warszawa"
-            android:textAlignment="textStart"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/activity_user_city_label_tv" />
+            <TextView
+                android:id="@+id/activity_user_city_label_tv"
+                style="@style/Text.Small"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="8dp"
+                android:text="@string/city"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_user_about_tv" />
 
-    </android.support.constraint.ConstraintLayout>
+            <TextView
+                android:id="@+id/activity_user_city_tv"
+                style="@style/Text"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="4dp"
+                android:text="Warszawa"
+                android:textAlignment="textStart"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/activity_user_city_label_tv" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
 </LinearLayout>

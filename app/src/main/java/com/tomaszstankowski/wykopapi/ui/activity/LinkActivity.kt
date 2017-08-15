@@ -20,7 +20,6 @@ import android.widget.TextView
 import android.widget.Toast
 import butterknife.bindView
 import com.bumptech.glide.Glide
-import com.tomaszstankowski.wykopapi.App
 import com.tomaszstankowski.wykopapi.R
 import com.tomaszstankowski.wykopapi.model.Link
 import com.tomaszstankowski.wykopapi.ui.adapter.CommentListAdapter
@@ -60,7 +59,6 @@ class LinkActivity : AppCompatActivity(),
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        (application as App).component.inject(this)
         setContentView(R.layout.activity_link)
         setActionBar()
         setRecyclerview()

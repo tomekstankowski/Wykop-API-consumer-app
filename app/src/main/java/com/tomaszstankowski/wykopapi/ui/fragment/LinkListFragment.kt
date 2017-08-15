@@ -46,11 +46,8 @@ abstract class LinkListFragment : LifecycleFragment(), LinkListAdapter.OnClickLi
 
     abstract fun setViewModel()
 
-    abstract fun inject()
-
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
-        inject()
         setRecyclerview()
         setViewModel()
         observeData()

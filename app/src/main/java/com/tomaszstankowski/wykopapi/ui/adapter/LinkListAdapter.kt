@@ -25,13 +25,13 @@ class LinkListAdapter(private val context: Context, private val layoutId: Int = 
     var onClickListener: OnClickListener? = null
 
     class LinkHolder(view: View) : RecyclerView.ViewHolder(view) {
-        val image: ImageView = view.findViewById(R.id.link_preview_thumbnail_iv) as ImageView
-        val title: TextView = view.findViewById(R.id.link_preview_title_tv) as TextView
-        val tags: TextView = view.findViewById(R.id.link_preview_tags_tv) as TextView
-        val digCount: TextView = view.findViewById(R.id.link_preview_digs_tv) as TextView
-        val buryCount: TextView = view.findViewById(R.id.link_preview_buries_tv) as TextView
-        val commentCount: TextView = view.findViewById(R.id.link_preview_comment_count_tv) as TextView
-        val cardView: CardView = view.findViewById(R.id.link_preview_card_view) as CardView
+        val image: ImageView = view.findViewById(R.id.link_preview_thumbnail_iv)
+        val title: TextView = view.findViewById(R.id.link_preview_title_tv)
+        val tags: TextView = view.findViewById(R.id.link_preview_tags_tv)
+        val digCount: TextView = view.findViewById(R.id.link_preview_digs_tv)
+        val buryCount: TextView = view.findViewById(R.id.link_preview_buries_tv)
+        val commentCount: TextView = view.findViewById(R.id.link_preview_comment_count_tv)
+        val cardView: CardView = view.findViewById(R.id.link_preview_card_view)
     }
 
     interface OnClickListener {

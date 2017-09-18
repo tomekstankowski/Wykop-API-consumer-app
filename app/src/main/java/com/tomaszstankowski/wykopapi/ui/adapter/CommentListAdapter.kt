@@ -94,12 +94,12 @@ class CommentListAdapter(private val context: Context, private val layout: Int =
     }
 
     class CommentHolder(val parent: View) : RecyclerView.ViewHolder(parent) {
-        val avatar = parent.findViewById(R.id.comment_avatar_iv) as ImageView
-        val author = parent.findViewById(R.id.comment_author_tv) as TextView
-        val date = parent.findViewById(R.id.comment_date_tv) as TextView
-        val plusCount = parent.findViewById(R.id.comment_plus_count_tv) as TextView
-        val minusCount = parent.findViewById(R.id.comment_minus_count_tv) as TextView
-        val body = parent.findViewById(R.id.comment_body_tv) as TextView
+        val avatar: ImageView = parent.findViewById(R.id.comment_avatar_iv)
+        val author: TextView = parent.findViewById(R.id.comment_author_tv)
+        val date: TextView = parent.findViewById(R.id.comment_date_tv)
+        val plusCount: TextView = parent.findViewById(R.id.comment_plus_count_tv)
+        val minusCount: TextView = parent.findViewById(R.id.comment_minus_count_tv)
+        val body: TextView = parent.findViewById(R.id.comment_body_tv)
     }
 
     private fun invalidateEmptyView() {

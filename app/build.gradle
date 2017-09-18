@@ -3,12 +3,12 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 
 android {
-    compileSdkVersion 25
+    compileSdkVersion 26
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.tomaszstankowski.wykopapi"
         minSdkVersion 21
-        targetSdkVersion 25
+        targetSdkVersion 26
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
@@ -38,17 +38,17 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
     //support library
-    compile 'com.android.support:appcompat-v7:25.4.0'
-    compile 'com.android.support:support-v4:25.4.0'
-    compile 'com.android.support:recyclerview-v7:25.4.0'
-    compile 'com.android.support:cardview-v7:25.4.0'
-    compile 'com.android.support:design:25.4.0'
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:support-v4:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
 
     //android lifecycle
-    compile "android.arch.lifecycle:runtime:1.0.0-alpha3"
-    compile "android.arch.lifecycle:extensions:1.0.0-alpha3"
-    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha3"
+    compile "android.arch.lifecycle:runtime:1.0.0"
+    compile "android.arch.lifecycle:extensions:1.0.0-alpha9-1"
+    annotationProcessor "android.arch.lifecycle:compiler:1.0.0-alpha9-1"
 
     //image loading
     compile 'com.github.bumptech.glide:glide:3.8.0'
@@ -69,6 +69,6 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
 
     //data persistence
-    compile "android.arch.persistence.room:runtime:1.0.0-alpha3"
-    kapt "android.arch.persistence.room:compiler:1.0.0-alpha3"
+    compile "android.arch.persistence.room:runtime:1.0.0-alpha9-1"
+    kapt "android.arch.persistence.room:compiler:1.0.0-alpha9-1"
 }
